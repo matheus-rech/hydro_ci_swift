@@ -35,7 +35,7 @@ name: "HydroMorph iOS — Agentic Workflow"
     - opened
     - synchronize
   workflow_run:
-    # zizmor: ignore[dangerous-triggers] - workflow_run trigger is secured with role and fork validation
+    # zizmor: ignore[dangerous-triggers] - workflow_run trigger is intentionally enabled for CI failure analysis
     workflows:
     - Copilot coding agent
     types:
