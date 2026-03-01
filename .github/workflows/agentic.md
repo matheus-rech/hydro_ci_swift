@@ -7,6 +7,9 @@ on:
     types: [opened]
   pull_request:
     types: [opened, synchronize]
+  workflow_run:
+    workflows: ["Copilot coding agent"]
+    types: [completed]
 permissions:
   contents: read
   issues: read
