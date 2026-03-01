@@ -1,0 +1,383 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A8752322C295507C932AC9A6 /* HydroMorphApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A801E0A3AFA0E4D48564A0BA /* HydroMorphApp.swift */; };
+		22FCC37CB873B5EA5ED705E1 /* NiftiReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9492BEA1104356BC65313C /* NiftiReader.swift */; };
+		985BDFB05378BA213ACA14C0 /* Volume.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD4C48E6C83B0AC48BCFA3C2 /* Volume.swift */; };
+		B05CE0F59B8FF9F4EFFA9E5C /* PipelineResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EA61461CB827A7743A4368E /* PipelineResult.swift */; };
+		0E10F41DC82347BC56030545 /* MorphometricsPipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7FBDA43BB477FFBF2A1063 /* MorphometricsPipeline.swift */; };
+		8C08837304CED6DE1A71FCC4 /* UploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F609D814C60847F950EAE7 /* UploadView.swift */; };
+		2C6E78A4D68F59334915643C /* ProcessingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AB63407E7C78531E02837F /* ProcessingView.swift */; };
+		8FF634790D7E76752F6728A1 /* ResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 683035C7536A55C1AE8117CE /* ResultsView.swift */; };
+		778762222B74CA1D6DA154AA /* MetricCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89CEEFD6A868C3347D3FC40 /* MetricCardView.swift */; };
+		F21226C8411A2C8F3DEB9746 /* NPHBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F56A6DFDAF63920D5DC89C9 /* NPHBadgeView.swift */; };
+		D5924A19738961B6F01ED9AA /* SliceViewerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555081C348E7562F616B04E3 /* SliceViewerView.swift */; };
+		2E220A89C3EC9B12AAA99E60 /* MeasurementsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E8264485561EEA24530B60 /* MeasurementsTableView.swift */; };
+		34B46ECC90DE558ABF438D5E /* PipelineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E487E27F006CB4A3554AD60B /* PipelineViewModel.swift */; };
+		2C74E14C90656FE6D7619082 /* MorphologicalOps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADC1746F8FDE57344566A63 /* MorphologicalOps.swift */; };
+		7B3BF90067FC76AF20384123 /* ConnectedComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739A47B598D43E567E8121FB /* ConnectedComponents.swift */; };
+		04073C0CC4BE2CC6B0D8DE65 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EF8344381840005B3BAF410 /* Theme.swift */; };
+		D99AA0B66B80806FF15EB736 /* sample-data.json in Resources */ = {isa = PBXBuildFile; fileRef = 446EAFD58CCAEBFCF5228EA7 /* sample-data.json */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		5141EFFF35ACD6C51F274E4D /* HydroMorph.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HydroMorph.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A801E0A3AFA0E4D48564A0BA /* HydroMorphApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HydroMorphApp.swift; sourceTree = "<group>"; };
+		7E9492BEA1104356BC65313C /* NiftiReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NiftiReader.swift; sourceTree = "<group>"; };
+		DD4C48E6C83B0AC48BCFA3C2 /* Volume.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Volume.swift; sourceTree = "<group>"; };
+		5EA61461CB827A7743A4368E /* PipelineResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineResult.swift; sourceTree = "<group>"; };
+		8A7FBDA43BB477FFBF2A1063 /* MorphometricsPipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MorphometricsPipeline.swift; sourceTree = "<group>"; };
+		C7F609D814C60847F950EAE7 /* UploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadView.swift; sourceTree = "<group>"; };
+		C3AB63407E7C78531E02837F /* ProcessingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessingView.swift; sourceTree = "<group>"; };
+		683035C7536A55C1AE8117CE /* ResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsView.swift; sourceTree = "<group>"; };
+		D89CEEFD6A868C3347D3FC40 /* MetricCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricCardView.swift; sourceTree = "<group>"; };
+		7F56A6DFDAF63920D5DC89C9 /* NPHBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NPHBadgeView.swift; sourceTree = "<group>"; };
+		555081C348E7562F616B04E3 /* SliceViewerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliceViewerView.swift; sourceTree = "<group>"; };
+		10E8264485561EEA24530B60 /* MeasurementsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementsTableView.swift; sourceTree = "<group>"; };
+		E487E27F006CB4A3554AD60B /* PipelineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineViewModel.swift; sourceTree = "<group>"; };
+		4ADC1746F8FDE57344566A63 /* MorphologicalOps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MorphologicalOps.swift; sourceTree = "<group>"; };
+		739A47B598D43E567E8121FB /* ConnectedComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectedComponents.swift; sourceTree = "<group>"; };
+		9EF8344381840005B3BAF410 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		446EAFD58CCAEBFCF5228EA7 /* sample-data.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = sample-data.json; sourceTree = "<group>"; };
+		B0C9FA56D7CC9FFC7030DEB3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CE8212314C0AAC14F4064BEE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A4C2A37E76047A91E5C0296C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				7E9492BEA1104356BC65313C /* NiftiReader.swift */,
+				DD4C48E6C83B0AC48BCFA3C2 /* Volume.swift */,
+				5EA61461CB827A7743A4368E /* PipelineResult.swift */,
+				8A7FBDA43BB477FFBF2A1063 /* MorphometricsPipeline.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		C376D4D9BF34E56D9B2FBC3F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C7F609D814C60847F950EAE7 /* UploadView.swift */,
+				C3AB63407E7C78531E02837F /* ProcessingView.swift */,
+				683035C7536A55C1AE8117CE /* ResultsView.swift */,
+				D89CEEFD6A868C3347D3FC40 /* MetricCardView.swift */,
+				7F56A6DFDAF63920D5DC89C9 /* NPHBadgeView.swift */,
+				555081C348E7562F616B04E3 /* SliceViewerView.swift */,
+				10E8264485561EEA24530B60 /* MeasurementsTableView.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		C0946449467060D4BD84CDA4 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				E487E27F006CB4A3554AD60B /* PipelineViewModel.swift */,
+			);
+			name = ViewModels;
+			sourceTree = "<group>";
+		};
+		507B4317C0933471DC6BDAD2 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				4ADC1746F8FDE57344566A63 /* MorphologicalOps.swift */,
+				739A47B598D43E567E8121FB /* ConnectedComponents.swift */,
+				9EF8344381840005B3BAF410 /* Theme.swift */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
+		2F7B3ECAE27718487466A554 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				446EAFD58CCAEBFCF5228EA7 /* sample-data.json */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		B88D7E26791946AEFDCC8BB7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5141EFFF35ACD6C51F274E4D /* HydroMorph.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E9AC4BD1540DF25F92F842D2 /* HydroMorph */ = {
+			isa = PBXGroup;
+			children = (
+				A801E0A3AFA0E4D48564A0BA /* HydroMorphApp.swift */,
+				B0C9FA56D7CC9FFC7030DEB3 /* Info.plist */,
+				A4C2A37E76047A91E5C0296C /* Models */,
+				C376D4D9BF34E56D9B2FBC3F /* Views */,
+				C0946449467060D4BD84CDA4 /* ViewModels */,
+				507B4317C0933471DC6BDAD2 /* Utilities */,
+				2F7B3ECAE27718487466A554 /* Resources */,
+			);
+			name = HydroMorph;
+			path = HydroMorph;
+			sourceTree = "<group>";
+		};
+		0A85897F1A32FE9B91C081CD = {
+			isa = PBXGroup;
+			children = (
+				E9AC4BD1540DF25F92F842D2 /* HydroMorph */,
+				B88D7E26791946AEFDCC8BB7 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0A1D1B958922F39EFB59FFBA /* HydroMorph */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 843DC471AAF26AC8174F311B /* Build configuration list for PBXNativeTarget "HydroMorph" */;
+			buildPhases = (
+				07C25D49A6ADF49A12D6720A /* Sources */,
+				3E2AED267DA7D47F6A90D54F /* Resources */,
+				CE8212314C0AAC14F4064BEE /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HydroMorph;
+			productName = HydroMorph;
+			productReference = 5141EFFF35ACD6C51F274E4D /* HydroMorph.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1781F676DEDF5767F3243DB0 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 6E39CCE14DCF712BA66C9965 /* Build configuration list for PBXProject "HydroMorph" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 0A85897F1A32FE9B91C081CD;
+			productRefGroup = B88D7E26791946AEFDCC8BB7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0A1D1B958922F39EFB59FFBA /* HydroMorph */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3E2AED267DA7D47F6A90D54F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D99AA0B66B80806FF15EB736 /* sample-data.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		07C25D49A6ADF49A12D6720A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A8752322C295507C932AC9A6 /* HydroMorphApp.swift in Sources */,
+				22FCC37CB873B5EA5ED705E1 /* NiftiReader.swift in Sources */,
+				985BDFB05378BA213ACA14C0 /* Volume.swift in Sources */,
+				B05CE0F59B8FF9F4EFFA9E5C /* PipelineResult.swift in Sources */,
+				0E10F41DC82347BC56030545 /* MorphometricsPipeline.swift in Sources */,
+				8C08837304CED6DE1A71FCC4 /* UploadView.swift in Sources */,
+				2C6E78A4D68F59334915643C /* ProcessingView.swift in Sources */,
+				8FF634790D7E76752F6728A1 /* ResultsView.swift in Sources */,
+				778762222B74CA1D6DA154AA /* MetricCardView.swift in Sources */,
+				F21226C8411A2C8F3DEB9746 /* NPHBadgeView.swift in Sources */,
+				D5924A19738961B6F01ED9AA /* SliceViewerView.swift in Sources */,
+				2E220A89C3EC9B12AAA99E60 /* MeasurementsTableView.swift in Sources */,
+				34B46ECC90DE558ABF438D5E /* PipelineViewModel.swift in Sources */,
+				2C74E14C90656FE6D7619082 /* MorphologicalOps.swift in Sources */,
+				7B3BF90067FC76AF20384123 /* ConnectedComponents.swift in Sources */,
+				04073C0CC4BE2CC6B0D8DE65 /* Theme.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		075A3F45448538490E577636 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		9E4B6119718769058EA9DAB2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		097E7CFCCC5B6D6521DA7806 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = HydroMorph/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 2.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mmrech.HydroMorph";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		5C6A40B9D7D7215041AA086B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = HydroMorph/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 2.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mmrech.HydroMorph";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6E39CCE14DCF712BA66C9965 /* Build configuration list for PBXProject "HydroMorph" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				075A3F45448538490E577636 /* Debug */,
+				9E4B6119718769058EA9DAB2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		843DC471AAF26AC8174F311B /* Build configuration list for PBXNativeTarget "HydroMorph" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				097E7CFCCC5B6D6521DA7806 /* Debug */,
+				5C6A40B9D7D7215041AA086B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+	};
+	rootObject = 1781F676DEDF5767F3243DB0 /* Project object */;
+}
