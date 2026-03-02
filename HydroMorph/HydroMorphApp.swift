@@ -1,6 +1,6 @@
 // HydroMorphApp.swift
 // HydroMorph — Hydrocephalus Morphometrics Pipeline
-// App entry point.
+// App entry point with settings sheet support.
 // Author: Matheus Machado Rech
 // Research use only — not for clinical diagnosis
 
@@ -36,6 +36,11 @@ struct ContentView: View {
             case .results:
                 ResultsView()
             }
+        }
+        // Global settings sheet — accessible from any screen via vm.showSettings
+        .sheet(isPresented: $vm.showSettings) {
+            SettingsView()
+                .environmentObject(vm)
         }
         .animation(.easeInOut(duration: 0.3), value: vm.currentScreen)
     }

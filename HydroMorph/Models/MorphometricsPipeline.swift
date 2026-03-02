@@ -53,7 +53,7 @@ actor MorphometricsPipeline {
 
     // MARK: - Run
 
-    func run(volume: Volume) async throws -> PipelineResult {
+    func run(volume: Volume, segmentationMethod: SegmentationMethod = .threshold) async throws -> PipelineResult {
         let X = volume.dimX, Y = volume.dimY, Z = volume.dimZ
         let total = X * Y * Z
         let data = volume.data
@@ -203,7 +203,8 @@ actor MorphometricsPipeline {
             brainVoxCount: brainVoxCount,
             shape: (X, Y, Z),
             spacing: (volume.spacingX, volume.spacingY, volume.spacingZ),
-            ventMask: ventMask
+            ventMask: ventMask,
+            segmentationMethod: segmentationMethod
         )
     }
 
@@ -373,6 +374,77 @@ actor MorphometricsPipeline {
             leftPt:  CallosalPoint(x: Double(bLeftX),  z: Double(bLeftZ)),
             rightPt: CallosalPoint(x: Double(bRightX), z: Double(bRightZ)),
             midX: midX
+        )
+    }
+
+    // MARK: - Run with external mask (MedSAM2)
+
+    /// Compute morphometrics using an externally-provided ventricle mask
+    /// (e.g., from MedSAM2 AI segmentation).
+    /// Skips Steps 1–4 (brain mask / CSF / morphological ops / isolation);
+    /// jumps straight to Evans Index, Callosal Angle, and Volume.
+    func runWithExternalMask(
+        volume: Volume,
+        ventMask: [UInt8],
+        segmentationMethod: SegmentationMethod
+    ) async throws -> PipelineResult {
+        let X = volume.dimX, Y = volume.dimY, Z = volume.dimZ
+        let data = volume.data
+
+        report(0, "Volume: \(X)×\(Y)×\(Z), spacing: \(String(format:"%.2f", volume.spacingX))×\(String(format:"%.2f", volume.spacingY))×\(String(format:"%.2f", volume.spacingZ)) mm")
+
+        let ventCount = ventMask.reduce(0) { $0 + Int($1) }
+        report(4, "AI ventricle mask: \(ventCount) voxels")
+
+        guard ventCount >= 100 else {
+            throw PipelineError.tooFewVentricleVoxels(ventCount)
+        }
+
+        // Approximate brain voxel count from HU range
+        let total = X * Y * Z
+        var brainVoxCount = 0
+        for i in 0..<total {
+            let hu = data[i]
+            if hu >= -5 && hu <= 80 { brainVoxCount += 1 }
+        }
+
+        report(5, "Computing Evans Index per axial slice…")
+        let evansResult = computeEvansIndex(data: data, ventMask: ventMask, volume: volume)
+
+        report(6, "Computing callosal angle on coronal view…")
+        let callosalResult = computeCallosalAngle(ventMask: ventMask, volume: volume)
+
+        report(7, "Computing ventricle volume…")
+        let voxVol = Double(volume.spacingX) * Double(volume.spacingY) * Double(volume.spacingZ)
+        let ventVolMm3 = Double(ventCount) * voxVol
+        let ventVolMl  = ventVolMm3 / 1000.0
+
+        report(8, "Generating clinical report…")
+        var nphScore = 0
+        if evansResult.maxEvans > 0.3 { nphScore += 1 }
+        if let angle = callosalResult.angleDeg, angle < 90 { nphScore += 1 }
+        if ventVolMl > 50 { nphScore += 1 }
+        let nphPct = Int((Double(nphScore) / 3.0 * 100).rounded())
+
+        let initialSlice = evansResult.bestSlice >= 0 ? evansResult.bestSlice : Z / 2
+
+        return PipelineResult(
+            evansIndex: evansResult.maxEvans,
+            evansSlice: initialSlice,
+            evansData: evansResult,
+            callosalAngle: callosalResult.angleDeg,
+            callosalSlice: callosalResult.bestCoronalSlice,
+            callosalData: callosalResult,
+            ventVolMl: ventVolMl,
+            ventVolMm3: ventVolMm3,
+            nphScore: nphScore,
+            nphPct: nphPct,
+            ventCount: ventCount,
+            brainVoxCount: brainVoxCount,
+            shape: (X, Y, Z),
+            spacing: (volume.spacingX, volume.spacingY, volume.spacingZ),
+            ventMask: ventMask,
+            segmentationMethod: segmentationMethod
         )
     }
 

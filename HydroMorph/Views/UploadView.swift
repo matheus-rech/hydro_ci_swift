@@ -1,18 +1,60 @@
 // UploadView.swift
 // HydroMorph — Hydrocephalus Morphometrics Pipeline
-// File picker screen with drop zone, sample data button, and privacy notice.
+// File picker screen supporting NIfTI, DICOM series, PNG, and JPEG files.
+// Includes a settings gear button for MedSAM2 server configuration.
 // Author: Matheus Machado Rech
 // Research use only — not for clinical diagnosis
 
 import SwiftUI
 import UniformTypeIdentifiers
 
-// MARK: - NIfTI UTType
+// MARK: - Custom UTTypes
 
 extension UTType {
-    /// Custom UTType for NIfTI files. Falls back to generic data type.
-    static let nifti = UTType(filenameExtension: "nii") ?? .data
+    /// NIfTI files (.nii)
+    static let nifti   = UTType(filenameExtension: "nii")   ?? .data
+    /// Gzip-compressed NIfTI files (.nii.gz) — treated as gzip by the system
     static let niftiGz = UTType(filenameExtension: "nii.gz") ?? .gzip
+    /// DICOM files (.dcm)
+    static let dicom   = UTType(filenameExtension: "dcm")   ?? .data
+}
+
+// MARK: - File type classification
+
+private enum FileKind {
+    case nifti
+    case dicomSeries([URL])
+    case image(URL)
+    case unknown(String)
+
+    static func classify(urls: [URL]) -> FileKind {
+        guard !urls.isEmpty else { return .unknown("No file selected") }
+
+        // Multiple files → treat as DICOM series
+        if urls.count > 1 { return .dicomSeries(urls) }
+
+        let url  = urls[0]
+        let name = url.lastPathComponent.lowercased()
+
+        if name.hasSuffix(".nii") || name.hasSuffix(".nii.gz") {
+            return .nifti
+        }
+        if name.hasSuffix(".dcm") || name.hasSuffix(".dicom") {
+            return .dicomSeries([url])
+        }
+        if name.hasSuffix(".png") || name.hasSuffix(".jpg") || name.hasSuffix(".jpeg") {
+            return .image(url)
+        }
+
+        // Try DICOM magic byte detection (DICM at offset 128)
+        if let data = try? Data(contentsOf: url, options: .mappedIfSafe),
+           data.count > 132,
+           String(data: data[128..<132], encoding: .ascii) == "DICM" {
+            return .dicomSeries([url])
+        }
+
+        return .unknown("Unsupported format: \(url.pathExtension.isEmpty ? "unknown" : url.pathExtension)")
+    }
 }
 
 // MARK: - Upload View
@@ -20,49 +62,76 @@ extension UTType {
 struct UploadView: View {
     @EnvironmentObject var vm: PipelineViewModel
 
-    @State private var isShowingFilePicker = false
-    @State private var isDraggingOver = false
+    @State private var isShowingFilePicker   = false
+    @State private var isDraggingOver        = false
+
+    // Supported types for the file importer
+    private let supportedTypes: [UTType] = [
+        .nifti, .niftiGz, .dicom, .png, .jpeg, .gzip, .data
+    ]
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: Spacing.lg) {
-                Spacer(minLength: Spacing.xxl)
+        NavigationStack {
+            ScrollView {
+                VStack(spacing: Spacing.lg) {
+                    Spacer(minLength: Spacing.xxl)
 
-                // ── Header ──────────────────────────────────────────
-                headerSection
+                    // ── Header ──────────────────────────────────────────
+                    headerSection
 
-                // ── Drop zone ───────────────────────────────────────
-                dropZone
-                    .onDrop(of: [.data, UTType.nifti], isTargeted: $isDraggingOver) { providers in
-                        handleDrop(providers: providers)
-                        return true
+                    // ── MedSAM2 status pill ──────────────────────────────
+                    if vm.medSAMAvailable {
+                        medSAMBadge
                     }
 
-                // ── Privacy strip ───────────────────────────────────
-                privacyStrip
+                    // ── Drop zone ───────────────────────────────────────
+                    dropZone
+                        .onDrop(of: [.data, .nifti, .dicom, .png, .jpeg],
+                                isTargeted: $isDraggingOver) { providers in
+                            handleDrop(providers: providers)
+                            return true
+                        }
 
-                // ── Error ───────────────────────────────────────────
-                if vm.showError, let msg = vm.errorMessage {
-                    errorBanner(msg)
+                    // ── Privacy strip ───────────────────────────────────
+                    privacyStrip
+
+                    // ── Error ───────────────────────────────────────────
+                    if vm.showError, let msg = vm.errorMessage {
+                        errorBanner(msg)
+                    }
+
+                    // ── Sample data button ──────────────────────────────
+                    sampleButton
+
+                    // ── Footer ──────────────────────────────────────────
+                    footerSection
+
+                    Spacer(minLength: Spacing.xxl)
                 }
-
-                // ── Sample data button ──────────────────────────────
-                sampleButton
-
-                // ── Footer ──────────────────────────────────────────
-                footerSection
-
-                Spacer(minLength: Spacing.xxl)
+                .padding(.horizontal, Spacing.md)
             }
-            .padding(.horizontal, Spacing.md)
-        }
-        .background(Color.bgPrimary.ignoresSafeArea())
-        .fileImporter(
-            isPresented: $isShowingFilePicker,
-            allowedContentTypes: [UTType.nifti, UTType.niftiGz, .data, .gzip],
-            allowsMultipleSelection: false
-        ) { result in
-            handleFileImporterResult(result)
+            .background(Color.bgPrimary.ignoresSafeArea())
+            // Settings gear in top-right
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        vm.showSettings = true
+                    } label: {
+                        Image(systemName: "gear")
+                            .font(.system(size: 18, weight: .medium))
+                            .foregroundColor(.textSecondary)
+                    }
+                    .accessibilityLabel("Settings")
+                }
+            }
+            .fileImporter(
+                isPresented: $isShowingFilePicker,
+                allowedContentTypes: supportedTypes,
+                allowsMultipleSelection: true
+            ) { result in
+                handleFileImporterResult(result)
+            }
+            .navigationBarHidden(true)
         }
     }
 
@@ -80,6 +149,31 @@ struct UploadView: View {
                 .foregroundColor(.textSecondary)
                 .multilineTextAlignment(.center)
         }
+    }
+
+    private var medSAMBadge: some View {
+        HStack(spacing: Spacing.sm) {
+            Image(systemName: "sparkles")
+                .font(.system(size: 12))
+                .foregroundColor(.accent)
+            Text("MedSAM2 AI ready")
+                .font(AppFont.body(12, weight: .medium))
+                .foregroundColor(.accent)
+            if !vm.medSAMInfo.isEmpty {
+                Text("· \(vm.medSAMInfo)")
+                    .font(AppFont.body(12))
+                    .foregroundColor(.textSecondary)
+                    .lineLimit(1)
+            }
+        }
+        .padding(.horizontal, Spacing.md)
+        .padding(.vertical, 6)
+        .background(Color.accent.opacity(0.10))
+        .cornerRadius(Radius.md)
+        .overlay(
+            RoundedRectangle(cornerRadius: Radius.md)
+                .stroke(Color.accent.opacity(0.25), lineWidth: 1)
+        )
     }
 
     private var dropZone: some View {
@@ -101,9 +195,20 @@ struct UploadView: View {
                     .foregroundColor(.textSecondary)
                     .multilineTextAlignment(.center)
 
-                HStack(spacing: Spacing.sm) {
-                    FormatBadge(label: ".nii")
-                    FormatBadge(label: ".nii.gz")
+                // Format badges
+                VStack(spacing: 6) {
+                    HStack(spacing: Spacing.sm) {
+                        FormatBadge(label: ".nii")
+                        FormatBadge(label: ".nii.gz")
+                        FormatBadge(label: ".dcm")
+                    }
+                    HStack(spacing: Spacing.sm) {
+                        FormatBadge(label: ".png")
+                        FormatBadge(label: ".jpg")
+                        Text("· multi-file DICOM series supported")
+                            .font(AppFont.body(10))
+                            .foregroundColor(.textMuted)
+                    }
                 }
             }
             .padding(.vertical, Spacing.xl)
@@ -185,7 +290,7 @@ struct UploadView: View {
 
     private var footerSection: some View {
         VStack(spacing: 4) {
-            Text("Supports NIfTI-1 format · Head CT in Hounsfield Units")
+            Text("NIfTI · DICOM · PNG · JPEG · Head CT in Hounsfield Units")
                 .font(AppFont.body(12))
                 .foregroundColor(.textMuted)
             HStack(spacing: 4) {
@@ -208,27 +313,37 @@ struct UploadView: View {
     private func handleFileImporterResult(_ result: Result<[URL], Error>) {
         switch result {
         case .success(let urls):
-            guard let url = urls.first else { return }
-            let name = url.lastPathComponent.lowercased()
-            guard name.hasSuffix(".nii") || name.hasSuffix(".nii.gz") else {
-                vm.errorMessage = "Please select a NIfTI file (.nii or .nii.gz)"
-                vm.showError = true
-                return
-            }
-            vm.loadFile(url: url)
+            routeFiles(urls: urls)
         case .failure(let error):
             vm.errorMessage = error.localizedDescription
             vm.showError = true
         }
     }
 
+    private func routeFiles(urls: [URL]) {
+        vm.showError = false
+        let kind = FileKind.classify(urls: urls)
+        switch kind {
+        case .nifti:
+            guard let url = urls.first else { return }
+            vm.loadFile(url: url)
+
+        case .dicomSeries(let dicomUrls):
+            vm.loadDicomSeries(urls: dicomUrls)
+
+        case .image(let url):
+            vm.loadImageFile(url: url)
+
+        case .unknown(let reason):
+            vm.errorMessage = reason + ". Supported formats: .nii, .nii.gz, .dcm, .png, .jpg"
+            vm.showError = true
+        }
+    }
+
     private func handleDrop(providers: [NSItemProvider]) {
-        guard let provider = providers.first else { return }
-        provider.loadDataRepresentation(forTypeIdentifier: UTType.data.identifier) { data, _ in
-            // Cannot easily get filename from drop; guide user to file picker
-            DispatchQueue.main.async {
-                self.isShowingFilePicker = true
-            }
+        // Dropping works best from Files app; open the picker as guidance
+        DispatchQueue.main.async {
+            self.isShowingFilePicker = true
         }
     }
 }

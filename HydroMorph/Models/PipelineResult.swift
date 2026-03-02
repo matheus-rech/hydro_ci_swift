@@ -5,6 +5,23 @@
 
 import Foundation
 
+// MARK: - Segmentation method
+
+/// Indicates which pipeline was used to produce the ventricle mask.
+enum SegmentationMethod: String {
+    /// Classical HU-threshold + morphological pipeline (fully on-device).
+    case threshold = "threshold"
+    /// AI-powered segmentation via MedSAM2 backend server.
+    case medsam2 = "medsam2"
+
+    var displayName: String {
+        switch self {
+        case .threshold: return "On-Device Threshold"
+        case .medsam2:   return "MedSAM2 AI"
+        }
+    }
+}
+
 // MARK: - Per-slice Evans data
 
 struct EvansSliceData {
@@ -86,8 +103,11 @@ struct PipelineResult {
     let shape: (Int, Int, Int)
     let spacing: (Float, Float, Float)
 
-    // Ventricle mask (flattened, NIfTI order)
+    // Ventricle mask (flattened, x+y*X+z*X*Y order)
     let ventMask: [UInt8]
+
+    // Segmentation method used for this result
+    let segmentationMethod: SegmentationMethod
 
     // Sanity warnings
     var sanityWarnings: [String] {

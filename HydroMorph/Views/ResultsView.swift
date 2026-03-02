@@ -119,6 +119,23 @@ struct ResultsView: View {
                     .cornerRadius(4)
             }
             Spacer()
+            // Segmentation method badge
+            if let result = vm.result {
+                segMethodBadge(result.segmentationMethod)
+            }
+            // Settings
+            Button {
+                vm.showSettings = true
+            } label: {
+                Image(systemName: "gear")
+                    .font(.system(size: 16, weight: .medium))
+                    .foregroundColor(.textSecondary)
+                    .padding(8)
+                    .background(Color.bgTertiary)
+                    .cornerRadius(6)
+            }
+            .buttonStyle(.plain)
+            // New scan
             Button {
                 vm.reset()
             } label: {
@@ -140,6 +157,21 @@ struct ResultsView: View {
         .padding(.vertical, Spacing.sm)
         .background(Color.bgSecondary)
         .overlay(Divider().background(Color.border), alignment: .bottom)
+    }
+
+    @ViewBuilder
+    private func segMethodBadge(_ method: SegmentationMethod) -> some View {
+        HStack(spacing: 4) {
+            Image(systemName: method == .medsam2 ? "sparkles" : "cpu")
+                .font(.system(size: 10))
+            Text(method.displayName)
+                .font(AppFont.body(10, weight: .medium))
+        }
+        .foregroundColor(method == .medsam2 ? .accent : .textMuted)
+        .padding(.horizontal, 7)
+        .padding(.vertical, 4)
+        .background((method == .medsam2 ? Color.accent : Color.textMuted).opacity(0.12))
+        .cornerRadius(5)
     }
 
     // MARK: - Reference legend
