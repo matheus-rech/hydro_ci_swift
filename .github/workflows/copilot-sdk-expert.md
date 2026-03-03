@@ -8,8 +8,10 @@ description: >
 on:
   issues:
     types: [opened, edited, labeled]
+    labels: [copilot-sdk]
   pull_request:
     types: [opened, synchronize]
+    labels: [copilot-sdk]
   slash_command:
     name: ["sdk", "copilot-sdk"]
     events: [issues, pull_request_comment]
