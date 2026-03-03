@@ -54,11 +54,15 @@ from copilot import CopilotClient
 
 async def main():
     client = CopilotClient()
-    await client.start()
-    session = await client.create_session({"model": "gpt-4.1"})
-    response = await session.send_and_wait({"prompt": "Hello!"})
-    print(response.data.content)
-    await client.stop()
+    try:
+        await client.start()
+        session = await client.create_session({"model": "gpt-4-turbo"})
+        response = await session.send_and_wait({"prompt": "Hello!"})
+        print(response.data.content)
+    except Exception as e:
+        print(f"An error occurred: {e}")
+    finally:
+        await client.stop()
 
 asyncio.run(main())
 ```
