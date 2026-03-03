@@ -36,10 +36,15 @@ dotnet add package GitHub.Copilot.SDK
 ```typescript
 import { CopilotClient } from "@github/copilot-sdk";
 const client = new CopilotClient();
-const session = await client.createSession({ model: "gpt-4.1" });
-const response = await session.sendAndWait({ prompt: "Hello!" });
-console.log(response?.data.content);
-await client.stop();
+try {
+    const session = await client.createSession({ model: "gpt-4-turbo" });
+    const response = await session.sendAndWait({ prompt: "Hello!" });
+    console.log(response?.data.content);
+} catch (error) {
+    console.error("An error occurred:", error);
+} finally {
+    await client.stop();
+}
 ```
 
 **Python:**
