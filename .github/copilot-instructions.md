@@ -89,9 +89,16 @@ fmt.Println(*response.Data.Content)
 **.NET:**
 ```csharp
 await using var client = new CopilotClient();
-await using var session = await client.CreateSessionAsync(new SessionConfig { Model = "gpt-4.1" });
-var response = await session.SendAndWaitAsync(new MessageOptions { Prompt = "Hello!" });
-Console.WriteLine(response?.Data.Content);
+try
+{
+    await using var session = await client.CreateSessionAsync(new SessionConfig { Model = "gpt-4-turbo" });
+    var response = await session.SendAndWaitAsync(new MessageOptions { Prompt = "Hello!" });
+    Console.WriteLine(response?.Data.Content);
+}
+catch (Exception ex)
+{
+    Console.Error.WriteLine($"An error occurred: {ex.Message}");
+}
 ```
 
 ### Streaming
